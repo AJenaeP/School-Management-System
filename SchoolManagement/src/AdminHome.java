@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Button;
@@ -31,6 +32,7 @@ import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 import java.awt.Choice;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 
 public class AdminHome extends JFrame {
 	private JTextField firstNameTextField;
@@ -49,6 +51,15 @@ public class AdminHome extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1100, 775);		
 		getContentPane().setLayout(null);
+		
+			//Labels
+			JLabel welcomeLabel = new JLabel("Welcome " + firstName + " " + lastName);
+			welcomeLabel.setOpaque(true);
+			welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			welcomeLabel.setBackground(new Color(204, 204, 255));
+			welcomeLabel.setFont(new Font("Academy Engraved LET", Font.PLAIN, 27));
+			welcomeLabel.setBounds(206, 6, 894, 72);
+			getContentPane().add(welcomeLabel);
 		
 		JPanel menuPanel = new JPanel();
 		menuPanel.setBackground(new Color(153, 204, 255));
@@ -77,15 +88,6 @@ public class AdminHome extends JFrame {
 		Image img0 = stuIcon.getImage();
 		Image newimg0 = img0.getScaledInstance(55, 55, Image.SCALE_SMOOTH);
 		stuIcon = new ImageIcon(newimg0);
-	
-		//Labels
-		JLabel welcomeLabel = new JLabel("Welcome " + firstName + " " + lastName);
-		welcomeLabel.setOpaque(true);
-		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		welcomeLabel.setBackground(new Color(204, 204, 255));
-		welcomeLabel.setFont(new Font("Academy Engraved LET", Font.PLAIN, 27));
-		welcomeLabel.setBounds(206, 6, 894, 54);
-		getContentPane().add(welcomeLabel);
 		
 		JLabel stuLabel = new JLabel("");
 		stuLabel.setBounds(74, 116, 60, 57);
@@ -116,148 +118,165 @@ public class AdminHome extends JFrame {
 		
 		//TabbedPane
 		JTabbedPane displayAreaTabbed = new JTabbedPane(JTabbedPane.TOP);
+		displayAreaTabbed.setBorder(null);
 		displayAreaTabbed.setVisible(false);
 		displayAreaTabbed.setOpaque(true);
 		displayAreaTabbed.setBackground(new Color(153, 204, 255));
 		displayAreaTabbed.setBounds(216, 36, 884, 730);
 		getContentPane().add(displayAreaTabbed);
-			
-			//Tabs
+		
+		String[] month = {" ","01","02","03","04","05","06","07","08","09","10","11","12"};
+		DefaultComboBoxModel<String> monthComboBoxModel = new DefaultComboBoxModel<>(month);
+		
+		String[] day = {" ","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
+		DefaultComboBoxModel<String> dayComboBoxModel = new DefaultComboBoxModel<>(day);
+		
+		String[] year = new String[107];
+		year[0] = " ";
+		int j = 2006;
+		for(int i = 1; i <= 106; i++) {
+			year[i] = "" +  j + "";
+			j--;
+		}
+		DefaultComboBoxModel<String> yearComboBoxModel = new DefaultComboBoxModel<>(year);
+		
+		String[] states = {" ","AL","AK","AZ","AR","CA","CO","CT","DC","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","PR","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"};
+		DefaultComboBoxModel<String> stateComboBoxModel = new DefaultComboBoxModel<String>(states);
+		
+		
+		
+		//Tabs
 		JPanel enrollStudentsPane = new JPanel();
-		enrollStudentsPane.setToolTipText("ex: johndoe@example.com");
+		enrollStudentsPane.setToolTipText("");
 		enrollStudentsPane.setOpaque(false);
 		displayAreaTabbed.addTab("New tab", null, enrollStudentsPane, null);
 		enrollStudentsPane.setLayout(null);
 		
-		JLabel firstNameLabel = new JLabel("First Name: ");
-		firstNameLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		firstNameLabel.setBounds(64, 154, 130, 24);
-		enrollStudentsPane.add(firstNameLabel);
-		
-		firstNameTextField = new JTextField();
-		firstNameTextField.setBounds(237, 149, 169, 34);
-		enrollStudentsPane.add(firstNameTextField);
-		firstNameTextField.setColumns(10);
-		
-		JLabel lastNameLabel = new JLabel("Last Name:");
-		lastNameLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		lastNameLabel.setBounds(64, 205, 130, 24);
-		enrollStudentsPane.add(lastNameLabel);
-		
-		lastNameTextField = new JTextField();
-		lastNameTextField.setBounds(237, 203, 169, 34);
-		enrollStudentsPane.add(lastNameTextField);
-		lastNameTextField.setColumns(10);
-		
-		JLabel dateOfBirthLabel = new JLabel("Date of Birth:");
-		dateOfBirthLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		dateOfBirthLabel.setBounds(435, 152, 133, 24);
-		enrollStudentsPane.add(dateOfBirthLabel);
-		
-		JLabel genderLabel = new JLabel("Gender:");
-		genderLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		genderLabel.setBounds(447, 205, 109, 24);
-		enrollStudentsPane.add(genderLabel);
-		
-		JRadioButton femaleRadioBttn = new JRadioButton("Female");
-		femaleRadioBttn.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		genderButtonGroup.add(femaleRadioBttn);
-		femaleRadioBttn.setBounds(574, 206, 97, 23);
-		enrollStudentsPane.add(femaleRadioBttn);
-		
-		JRadioButton maleRadioBttn = new JRadioButton("Male");
-		maleRadioBttn.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		genderButtonGroup.add(maleRadioBttn);
-		maleRadioBttn.setBounds(666, 206, 83, 23);
-		enrollStudentsPane.add(maleRadioBttn);
-		
-		phoneNumTextField = new JTextField();
-		phoneNumTextField.setBounds(237, 274, 169, 34);
-		enrollStudentsPane.add(phoneNumTextField);
-		phoneNumTextField.setColumns(10);
-		
-		JLabel phoneNumLabel = new JLabel("Phone Number:");
-		phoneNumLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		phoneNumLabel.setBounds(45, 272, 169, 24);
-		enrollStudentsPane.add(phoneNumLabel);
-		
-		JLabel emailLabel = new JLabel("Email:");
-		emailLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		emailLabel.setBounds(466, 282, 71, 24);
-		enrollStudentsPane.add(emailLabel);
-		
-		emailTextField = new JTextField();
-		emailTextField.setName("");
-		emailTextField.setBounds(580, 277, 189, 34);
-		enrollStudentsPane.add(emailTextField);
-		emailTextField.setColumns(50);
-		
-		JLabel streetAddressLabel = new JLabel("Street Address:");
-		streetAddressLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		streetAddressLabel.setBounds(47, 348, 164, 24);
-		enrollStudentsPane.add(streetAddressLabel);
-		
-		streetAddressTextField = new JTextField();
-		streetAddressTextField.setBounds(237, 348, 169, 34);
-		enrollStudentsPane.add(streetAddressTextField);
-		streetAddressTextField.setColumns(10);
-		
-		JLabel cityLabel = new JLabel("City:");
-		cityLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		cityLabel.setBounds(476, 353, 51, 24);
-		enrollStudentsPane.add(cityLabel);
-		
-		cityTextField = new JTextField();
-		cityTextField.setBounds(580, 348, 169, 34);
-		enrollStudentsPane.add(cityTextField);
-		cityTextField.setColumns(10);
-		
-		JLabel stateLabel = new JLabel("State: ");
-		stateLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		stateLabel.setBounds(94, 419, 71, 24);
-		enrollStudentsPane.add(stateLabel);
-		
-		JLabel lblNewLabel_8 = new JLabel("Enroll a Student");
-		lblNewLabel_8.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
-		lblNewLabel_8.setBounds(341, 16, 199, 45);
-		enrollStudentsPane.add(lblNewLabel_8);
-		
-		JComboBox monthComboBox = new JComboBox();
-		monthComboBox.setBounds(585, 154, 86, 27);
-		enrollStudentsPane.add(monthComboBox);
-		
-		JComboBox dayComboBox = new JComboBox();
-		dayComboBox.setBorder(null);
-		dayComboBox.setBounds(683, 154, 64, 27);
-		enrollStudentsPane.add(dayComboBox);
-		
-		JComboBox yearComboBox = new JComboBox();
-		yearComboBox.setBounds(760, 154, 71, 27);
-		enrollStudentsPane.add(yearComboBox);
-		
-		JLabel lblNewLabel_9 = new JLabel("Month");
-		lblNewLabel_9.setForeground(Color.GRAY);
-		lblNewLabel_9.setBounds(595, 178, 40, 16);
-		enrollStudentsPane.add(lblNewLabel_9);
-		
-		JLabel dayLabel = new JLabel("Day");
-		dayLabel.setForeground(Color.GRAY);
-		dayLabel.setBounds(693, 178, 32, 16);
-		enrollStudentsPane.add(dayLabel);
-		
-		JLabel yearLabel = new JLabel("Year");
-		yearLabel.setForeground(Color.GRAY);
-		yearLabel.setBounds(770, 178, 32, 16);
-		enrollStudentsPane.add(yearLabel);
-		
-		JComboBox stateCombobox = new JComboBox();
-		stateCombobox.setBounds(237, 422, 71, 27);
-		enrollStudentsPane.add(stateCombobox);
-		
-		JButton submitBttn = new JButton("Submit");
-		submitBttn.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
-		submitBttn.setBounds(395, 525, 117, 29);
-		enrollStudentsPane.add(submitBttn);
+				JLabel firstNameLabel = new JLabel("First Name: ");
+				firstNameLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+				firstNameLabel.setBounds(64, 154, 130, 24);
+				enrollStudentsPane.add(firstNameLabel);
+				
+				firstNameTextField = new JTextField();
+				firstNameTextField.setBounds(237, 149, 169, 34);
+				enrollStudentsPane.add(firstNameTextField);
+				firstNameTextField.setColumns(10);
+				
+				JLabel lastNameLabel = new JLabel("Last Name:");
+				lastNameLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+				lastNameLabel.setBounds(64, 205, 130, 24);
+				enrollStudentsPane.add(lastNameLabel);
+				
+				lastNameTextField = new JTextField();
+				lastNameTextField.setBounds(237, 203, 169, 34);
+				enrollStudentsPane.add(lastNameTextField);
+				lastNameTextField.setColumns(10);
+				
+				JLabel dateOfBirthLabel = new JLabel("Date of Birth:");
+				dateOfBirthLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+				dateOfBirthLabel.setBounds(435, 152, 133, 24);
+				enrollStudentsPane.add(dateOfBirthLabel);
+				
+				JLabel genderLabel = new JLabel("Gender:");
+				genderLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+				genderLabel.setBounds(447, 205, 109, 24);
+				enrollStudentsPane.add(genderLabel);
+				
+				JRadioButton femaleRadioBttn = new JRadioButton("Female");
+				femaleRadioBttn.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+				genderButtonGroup.add(femaleRadioBttn);
+				femaleRadioBttn.setBounds(574, 206, 97, 23);
+				enrollStudentsPane.add(femaleRadioBttn);
+				
+				JRadioButton maleRadioBttn = new JRadioButton("Male");
+				maleRadioBttn.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+				genderButtonGroup.add(maleRadioBttn);
+				maleRadioBttn.setBounds(666, 206, 83, 23);
+				enrollStudentsPane.add(maleRadioBttn);
+				
+				phoneNumTextField = new JTextField();
+				phoneNumTextField.setBounds(237, 274, 169, 34);
+				enrollStudentsPane.add(phoneNumTextField);
+				phoneNumTextField.setColumns(10);
+				
+				JLabel phoneNumLabel = new JLabel("Phone Number:");
+				phoneNumLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+				phoneNumLabel.setBounds(45, 272, 169, 24);
+				enrollStudentsPane.add(phoneNumLabel);
+				
+				JLabel emailLabel = new JLabel("Email:");
+				emailLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+				emailLabel.setBounds(466, 282, 71, 24);
+				enrollStudentsPane.add(emailLabel);
+				
+				emailTextField = new JTextField();
+				emailTextField.setName("");
+				emailTextField.setBounds(580, 277, 189, 34);
+				enrollStudentsPane.add(emailTextField);
+				emailTextField.setColumns(50);
+				
+				JLabel streetAddressLabel = new JLabel("Street Address:");
+				streetAddressLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+				streetAddressLabel.setBounds(47, 348, 164, 24);
+				enrollStudentsPane.add(streetAddressLabel);
+				
+				streetAddressTextField = new JTextField();
+				streetAddressTextField.setBounds(237, 348, 169, 34);
+				enrollStudentsPane.add(streetAddressTextField);
+				streetAddressTextField.setColumns(10);
+				
+				JLabel cityLabel = new JLabel("City:");
+				cityLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+				cityLabel.setBounds(476, 353, 51, 24);
+				enrollStudentsPane.add(cityLabel);
+				
+				cityTextField = new JTextField();
+				cityTextField.setBounds(580, 348, 169, 34);
+				enrollStudentsPane.add(cityTextField);
+				cityTextField.setColumns(10);
+				
+				JLabel stateLabel = new JLabel("State: ");
+				stateLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+				stateLabel.setBounds(94, 419, 71, 24);
+				enrollStudentsPane.add(stateLabel);
+				
+				JLabel lblNewLabel_8 = new JLabel("Enroll a Student");
+				lblNewLabel_8.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
+				lblNewLabel_8.setBounds(341, 16, 199, 45);
+				enrollStudentsPane.add(lblNewLabel_8);
+				JComboBox monthComboBox = new JComboBox(monthComboBoxModel);
+				monthComboBox.setBounds(585, 151, 71, 27);
+				enrollStudentsPane.add(monthComboBox);
+				JComboBox dayComboBox = new JComboBox(dayComboBoxModel);
+				dayComboBox.setBorder(null);
+				dayComboBox.setBounds(666, 151, 81, 27);
+				enrollStudentsPane.add(dayComboBox);
+				JComboBox<String> yearComboBox = new JComboBox(yearComboBoxModel);
+				yearComboBox.setBounds(759, 151, 83, 27);
+				enrollStudentsPane.add(yearComboBox);
+				
+				JLabel lblNewLabel_9 = new JLabel("Month");
+				lblNewLabel_9.setForeground(Color.GRAY);
+				lblNewLabel_9.setBounds(595, 178, 40, 16);
+				enrollStudentsPane.add(lblNewLabel_9);
+				
+				JLabel dayLabel = new JLabel("Day");
+				dayLabel.setForeground(Color.GRAY);
+				dayLabel.setBounds(693, 178, 32, 16);
+				enrollStudentsPane.add(dayLabel);
+				
+				JLabel yearLabel = new JLabel("Year");
+				yearLabel.setForeground(Color.GRAY);
+				yearLabel.setBounds(770, 178, 32, 16);
+				enrollStudentsPane.add(yearLabel);
+				JComboBox<String> stateCombobox = new JComboBox<>(stateComboBoxModel);
+				stateCombobox.setBounds(237, 422, 83, 27);
+				enrollStudentsPane.add(stateCombobox);
+				
+				JButton submitBttn = new JButton("Submit");
+				submitBttn.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
+				submitBttn.setBounds(395, 525, 117, 29);
+				enrollStudentsPane.add(submitBttn);
 		
 		JPanel disenrollStudentsPane = new JPanel();
 		disenrollStudentsPane.setVisible(false);

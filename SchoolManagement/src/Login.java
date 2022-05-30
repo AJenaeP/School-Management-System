@@ -36,8 +36,10 @@ public class Login extends JFrame{
 
 	Connection conn = null;
 	Statement stmt = null;
+	Statement stmt1 = null;
+	Statement stmt2 = null;
 	ResultSet rs = null;
-	
+	ResultSet rs2 = null;
 	
 	/**
 	 * Create the frame.
@@ -109,17 +111,17 @@ public class Login extends JFrame{
 		
 		JRadioButton StudentRadioBttn = new JRadioButton("Student");
 		StudentRadioBttn.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		StudentRadioBttn.setBounds(130, 316, 100, 41);
+		StudentRadioBttn.setBounds(130, 306, 100, 41);
 		Loginpanel.add(StudentRadioBttn);
 		
 		JRadioButton TeacherRadioBttn = new JRadioButton("Teacher");
 		TeacherRadioBttn.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		TeacherRadioBttn.setBounds(253, 316, 100, 41);
+		TeacherRadioBttn.setBounds(253, 306, 100, 41);
 		Loginpanel.add(TeacherRadioBttn);
 		
 		JRadioButton AdminRadioBttn = new JRadioButton("Admin");
 		AdminRadioBttn.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		AdminRadioBttn.setBounds(372, 316, 106, 41);
+		AdminRadioBttn.setBounds(372, 306, 106, 41);
 		Loginpanel.add(AdminRadioBttn);
 		
 		ButtonGroup group = new ButtonGroup();
@@ -140,6 +142,14 @@ public class Login extends JFrame{
 		lblNewLabel_2.setBounds(155, 141, 337, 29);
 		Loginpanel.add(lblNewLabel_2);
 		
+		JLabel warningLabel = new JLabel("");
+		warningLabel.setVisible(false);
+		warningLabel.setForeground(Color.RED);
+		warningLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		warningLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		warningLabel.setBounds(118, 349, 377, 31);
+		Loginpanel.add(warningLabel);
+		
 		
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -147,33 +157,75 @@ public class Login extends JFrame{
 				String userPass = passwordField.getText();	
 				String firstName;
 				String lastName;
-				if(AdminRadioBttn.isSelected()) {
 				try {
 					stmt = conn.createStatement();
-;					String sql = "SELECT firstName, lastName FROM Login WHERE userCode='"+userCode+ "' && password ='" +userPass+"'";
+					stmt1 = conn.createStatement();
+					stmt2 = conn.createStatement();
+					String sql = "SELECT firstName, lastName FROM Login WHERE userCode='"+ userCode + "' && password ='" + userPass +"'"; //checks if login is right
 					rs = stmt.executeQuery(sql);
-								
-					if(rs.next()) {
+					
+					Boolean login = stmt1.execute(sql);
+					String sql2 = "SELECT EXISTS(SELECT * FROM admin WHERE userCode = '" + userCode + "')"; //checks if correct radio button is selected
+					boolean admin = stmt2.execute(sql2);
+					/*//if(!login) {
+						do {
+							warningLabel.setText("Wrong usercode or password");
+							warningLabel.setVisible(true);
+						}while(!login);
+					//}
+					
+					while(login && rs.next()){
 						setVisible(false);
 						firstName = rs.getString("firstName");
 						lastName = rs.getString("lastName");
-						AdminHome object = new AdminHome(firstName, lastName);
-						object.setVisible(true);
-					
+						if(AdminRadioBttn.isSelected() && admin){
+							AdminHome object = new AdminHome(firstName, lastName);
+							object.setVisible(true);
+						} else if (AdminRadioBttn.isSelected() && (!admin)){
+							warningLabel.setText("You are not an Admin!");
+							warningLabel.setVisible(true);
+						} else if ((!AdminRadioBttn.isSelected()) && admin) {
+							warningLabel.setText("Incorrect radio button selected");
+							warningLabel.setVisible(true);
+						}
 						
+						if(StudentRadioBttn.isSelected() ) {
+							
+						} else {
+							warningLabel.setText("You are not a Student");
+							warningLabel.setVisible(true);
+						}
+						
+						if(TeacherRadioBttn.isSelected() ) {
+							
+						} else {
+							warningLabel.setText("You are not a Teacher");
+							warningLabel.setVisible(true);
+						}
+					} */
+					
+					if((rs.next())){
+						setVisible(false);
+						firstName = rs.getString("firstName");
+						lastName = rs.getString("lastName");
+						if(admin && AdminRadioBttn.isSelected()) {
+							AdminHome object = new AdminHome(firstName, lastName);
+							object.setVisible(true);	
+						} else {
+							warningLabel.setText("Wrong view selected");
+							warningLabel.setVisible(true);
+						}
 					} else {
-						JOptionPane.showMessageDialog(null, "Usercode or Password is invalid");
+						warningLabel.setText("Usercode or Password is invalid");
+						warningLabel.setVisible(true);
 					}
 					
 				} catch(Exception e1) {
 					JOptionPane.showMessageDialog(null,e1);
 				}
-			}
+			
 			}
 		});
 		
 	}
-
-	
-	
 }
